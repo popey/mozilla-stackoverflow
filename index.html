@@ -14,7 +14,7 @@
         <section role="region">
             <header>
                 <h1>
-                    <img src="images/mozilla-logo.png" alt=""> on 
+                    <img src="images/askubuntu_logo.png" alt=""> on
                     <img src="images/stack-overflow-logo.png" alt="">
                     metrics
                 </h1>
@@ -24,26 +24,36 @@
 
         <div id="main">
             <p>
-                This is to get the statistics for <a href="http://stackoverflow.com/r/mozilla">Mozilla tags on Stack Overflow</a>.<br>
+                This is to get the statistics for <a href="http://askubuntu.com/">Common tags on AskUbuntu</a>.<br>
                 Remaining requests for you today: <span id="remaining-requests"></span>
             </p>
             <p id="error">
-                
+
             </p>
 
             <div>
                 <form id="selection-form">
                     <label for="stack-overflow-tag">Tag:</label>
                     <select id="stack-overflow-tag">
-                        <option value="firefox-os" selected>firefox-os</option>
-                        <option value="firefox">firefox</option>
-                        <option value="firefox-developer-tools">firefox-developer-tools</option>
-                        <option value="html5-apps">html5-apps</option>
+                        <option value="14.04" selected>14.04</option>
+                        <option value="12.04">12.04</option>
+                        <option value="boot">boot</option>
+                        <option value="command-line">command-line</option>
+                        <option value="networking">networking</option>
+                        <option value="dual-boot">dual-boot</option>
+                        <option value="unity">unity</option>
+                        <option value="ubuntu-touch">ubuntu-touch</option>
+                        <option value="ubuntu-sdk">ubuntu-sdk</option>
+                        <option value="ubuntu-core">ubuntu-core</option>
+                        <option value="qml">qml</option>
+                        <option value="gps">gps</option>
+                        <option value="juju">juju</option>
+                        <option value="openstack">openstack</option>
                     </select>
 
                     <label for="start-date">Dates</label>
-                    <input type="date" id="start-date" value="2014-04-01">
-                    <input type="date" id="end-date" value="2014-05-01">
+                    <input type="date" id="start-date" value="2016-01-01">
+                    <input type="date" id="end-date" value="2016-01-31">
 
                     <label for="time-period">Period</label>
                     <select id="time-period">
@@ -100,7 +110,7 @@
                 <section>
                     <h2>Top askers (based on time period above)</h2>
                     <div id="top-askers"></div>
-                </section>                
+                </section>
             </div>
         </div>
 

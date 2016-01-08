@@ -42,7 +42,7 @@ label {
 }
 
 input[type=date] {
-  width: 70px;
+  width: 140px;
 }
 
 input[type=submit] {
@@ -71,7 +71,7 @@ td {
   margin: 0 auto;
 }
 
-#main { 
+#main {
   overflow: hidden;
   padding: 1rem 1rem 6rem 1rem;
 }

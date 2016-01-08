@@ -1,16 +1,19 @@
 "use strict";
 (function() {
+	var constants = {
+		'STACK_API_ROOT': 'https://api.stackexchange.com/2.2/'
+ 	};
 	var tag = document.querySelector("#stack-overflow-tag"),
 		startDate = document.querySelector("#start-date"),
 		endDate = document.querySelector("#end-date"),
-		timePeriod = document.querySelector("#time-period"),		
+		timePeriod = document.querySelector("#time-period"),
 		year = new Date().getFullYear(),
 		month = new Date().getMonth() + 1,
 		daysinMonth = 31,
 		questions = {
-			tag : "firefox-os",
-			startDate : "2014-05-01",
-			endDate : "2014-05-31",		
+			tag : "ubuntu-touch",
+			startDate : "2014-01-01",
+			endDate : "2015-01-31",
 			timePeriod : "month",
 			withActivity : {
 				total : 0
@@ -57,7 +60,7 @@
 	function addResults (type) {
 		var questionsWithActivity = questions.withActivity.total,
 			unansweredQuestions = questions.unanswered.total,
-			percentageUnanswered = (questionsWithActivity > 0)? parseFloat((unansweredQuestions/questionsWithActivity) * 100).toFixed(2) : "100";			
+			percentageUnanswered = (questionsWithActivity > 0)? parseFloat((unansweredQuestions/questionsWithActivity) * 100).toFixed(2) : "100";
 
 		// With activity
 		if (type === "withActivity") {
@@ -81,9 +84,9 @@
 
 				for (var i=0,l=totalUnanswereds, question; i<l; i++) {
 					question = allUnanswered[i];
-					unansweredResults += "<li>" + 
+					unansweredResults += "<li>" +
 									'<a href="' + question["link"] + '">' +
-									question["title"] + "</a><br>" + 
+									question["title"] + "</a><br>" +
 									"<small>" + question["tags"].toString(", ") + "</small></li>";
 				}
 				unansweredResults += "</ul>";
@@ -101,10 +104,10 @@
 
 				for (var i=0,l=totalTopAnswerers, user; i<l; i++) {
 					user = allTopAnswerers[i];
-					topAnswerersResults += "<li>" + 
+					topAnswerersResults += "<li>" +
 										'<a href="' + user.user["link"] + '">' +
-										'<img src="' + user.user["profile_image"] + '" alt="">' + 
-										user.user["display_name"] + "</a>" + ", Score: " + user["score"] + " (" + 
+										'<img src="' + user.user["profile_image"] + '" alt="">' +
+										user.user["display_name"] + "</a>" + ", Score: " + user["score"] + " (" +
 										user["post_count"] + " question" + ((user["post_count"] > 1)? "s" : "") + ")</li>";
 				};
 				topAnswerersResults += "</ul>";
@@ -122,9 +125,9 @@
 
 				for (var i=0,l=totalTopAskers, user; i<l; i++) {
 					user = allTopAskers[i];
-					topAskersResults += "<li>" + 
+					topAskersResults += "<li>" +
 										'<a href="' + user.user["link"] + '">' +
-										'<img src="' + user.user["profile_image"] + '" alt="">' + 
+										'<img src="' + user.user["profile_image"] + '" alt="">' +
 										user.user["display_name"] + "</a>" + ", " + user["post_count"] + " question" + ((user["post_count"] > 1)? "s" : "") + "</li>";
 				};
 				topAskersResults += "</ul>";
@@ -142,9 +145,9 @@
 
 				for (var i=0,l=totalFaqs, question; i<l; i++) {
 					question = allFaq[i];
-					faqResults += "<li>" + 
+					faqResults += "<li>" +
 									'<a href="' + question["link"] + '">' +
-									question["title"] + "</a><br>" + 
+									question["title"] + "</a><br>" +
 									"<small>" + question["tags"].toString(", ") + "</small></li>";
 				}
 				faqResults += "</ul>";
@@ -162,8 +165,8 @@
 
 				for (var i=0,l=totalRelatedTags, tag; i<l; i++) {
 					tag = allRelatedTags[i];
-					relatedTagsResults += "<li>" + 
-									'<a href="http://stackoverflow.com/questions/tagged/' + tag["name"] + '">' +
+					relatedTagsResults += "<li>" +
+									'<a href="http://askubuntu.com/questions/tagged/' + tag["name"] + '">' +
 									tag["name"] + "</a></li>";
 				}
 				relatedTagsResults += "</ul>";
@@ -192,7 +195,7 @@
 				else {
 					questions[type] = response;
 					addResults(type);
-				}				
+				}
 
 				// Remining requests today from your IP
 				if (quotaRemaining) {
@@ -200,7 +203,7 @@
 				}
 			}
 		};
-		
+
 		xhr.open("GET", url, true);
 		xhr.responseType = "json";
 		xhr.send(null);
@@ -208,35 +211,35 @@
 
 	function getQuestionsWithActivity () {
 		// All questions for a certain time period - http://api.stackexchange.com/docs/search
-		getItems("withActivity", "http://api.stackexchange.com/2.2/search?fromdate=" + questions.startDate + "&todate=" + questions.	endDate + "&order=desc&sort=activity&tagged=" + questions.tag + "&site=stackoverflow&filter=!9WA((MBIa");
+		getItems("withActivity", constants.STACK_API_ROOT + "search?fromdate=" + questions.startDate + "&todate=" + questions.	endDate + "&order=desc&sort=activity&tagged=" + questions.tag + "&site=askubuntu&filter=!9WA((MBIa");
 	}
 
 	function getUnansweredQuestions () {
 		// All questions without an answer for a certain time period - http://api.stackexchange.com/docs/unanswered-questions
 		// "At this time a question must have at least one upvoted answer to be considered answered"
-		getItems("unanswered", "http://api.stackexchange.com/2.2/questions/unanswered?fromdate=" + questions.startDate + "&todate=" + questions.endDate + "&order=desc&sort=activity&tagged=" + questions.tag + "&site=stackoverflow&filter=!9WA((MBIa");
+		getItems("unanswered", constants.STACK_API_ROOT + "questions/unanswered?fromdate=" + questions.startDate + "&todate=" + questions.endDate + "&order=desc&sort=activity&tagged=" + questions.tag + "&site=askubuntu&filter=!9WA((MBIa");
 	}
 
 	function topAnswerers () {
-		getItems("topAnswerers", "http://api.stackexchange.com/2.2/tags/" + questions.tag + "/top-answerers/" + questions.timePeriod + "?site=stackoverflow");
+		getItems("topAnswerers", constants.STACK_API_ROOT + "tags/" + questions.tag + "/top-answerers/" + questions.timePeriod + "?site=askubuntu");
 	}
 
 	function topAskers () {
-		getItems("topAskers", "http://api.stackexchange.com/2.2/tags/" + questions.tag + "/top-askers/" + questions.timePeriod + "?site=stackoverflow");
+		getItems("topAskers", constants.STACK_API_ROOT + "tags/" + questions.tag + "/top-askers/" + questions.timePeriod + "?site=askubuntu");
 	}
 
 	function faq () {
-		getItems("faq", "http://api.stackexchange.com/2.2/tags/" + questions.tag + "/faq?site=stackoverflow");
+		getItems("faq", constants.STACK_API_ROOT + "tags/" + questions.tag + "/faq?site=askubuntu");
 	}
 
 	function relatedTags () {
-		getItems("relatedTags", "http://api.stackexchange.com/2.2/tags/" + questions.tag + "/related?site=stackoverflow");
+		getItems("relatedTags", constants.STACK_API_ROOT + "tags/" + questions.tag + "/related?site=askubuntu");
 	}
 
 	function checkReports () {
 		questions.tag = tag.value;
 		questions.startDate = startDate.value;
-		questions.endDate = endDate.value;		
+		questions.endDate = endDate.value;
 		questions.timePeriod = timePeriod.value;
 
 		// Get reports
